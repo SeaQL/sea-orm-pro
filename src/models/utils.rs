@@ -72,7 +72,7 @@ where
                 bytes.push(b);
             }
             let base64_encoded = STANDARD.encode(bytes);
-            let src = format!("data:image;base64,{}", base64_encoded);
+            let src = format!("data:image;base64,{base64_encoded}");
             Ok(Some(src))
         }
         None => Ok(None),
