@@ -30,6 +30,7 @@ description = "Learn how to customize the admin panel to make it your own!"
 # Learn more link of info card
 link = "https://www.sea-ql.org/sea-orm-pro/docs/site-config/overview/"
 
+# Start: Scaffold
 # Chart grid
 [[row]]
 # Row gutter

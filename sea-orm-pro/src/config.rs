@@ -23,9 +23,15 @@ pub struct JsonCfg {
 pub struct SiteCfg {
     /// Theme config
     pub theme: ThemeCfg,
+    /// Navbar config
+    #[serde(default)]
+    pub navbar: NavbarCfg,
     /// Menu config
     #[serde(default)]
     pub menu: MenuCfg,
+    /// RBAC config
+    #[serde(default)]
+    pub rbac: RbacCfg,
 }
 
 /// Theme config
@@ -39,6 +45,13 @@ pub struct ThemeCfg {
     pub login_banner: String,
 }
 
+/// Navbar config
+#[derive(Debug, Default, Serialize, Deserialize)]
+pub struct NavbarCfg {
+    /// Whether to show the GraphQL playground button
+    pub graphql_playground: bool,
+}
+
 /// Menu config
 #[derive(Debug, Default, Serialize, Deserialize)]
 pub struct MenuCfg {
@@ -48,6 +61,13 @@ pub struct MenuCfg {
     pub raw_table: MenuItemCfg,
     /// Composite Table
     pub composite_table: MenuItemCfg,
+}
+
+/// RBAC config
+#[derive(Debug, Default, Serialize, Deserialize)]
+pub struct RbacCfg {
+    /// Is RBAC enabled?
+    pub enable: bool,
 }
 
 /// Menu item config

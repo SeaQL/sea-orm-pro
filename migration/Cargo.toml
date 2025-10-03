@@ -9,12 +9,15 @@ name = "migration"
 path = "src/lib.rs"
 
 [dependencies]
-async-std = { version = "1", features = ["attributes", "tokio1"] }
+tokio = { version = "1", features = ["full"] }
 uuid = { version = "1.6.0", features = ["v4"] }
-loco-rs = { version = "0.14" }
+loco-rs = { version = "0.16" }
+
+[features]
+sqlx-mysql = ["sea-orm-migration/sqlx-mysql"]
 
 [dependencies.sea-orm-migration]
-version = "1.1.5"
+version = "~2.0.0-rc"
 features = [
   # Enable at least one `ASYNC_RUNTIME` and `DATABASE_DRIVER` feature if you want to run migration via CLI.
   # View the list of supported features at https://www.sea-ql.org/SeaORM/docs/install-and-config/database-and-async-runtime.

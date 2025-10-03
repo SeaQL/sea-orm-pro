@@ -2,18 +2,26 @@ use async_graphql::{
     dynamic::*,
     extensions::{Extension, ExtensionContext, ExtensionFactory, NextParseQuery},
     parser::types::{ExecutableDocument, OperationType},
-    ServerResult, Variables,
+    ServerError, ServerResult, Variables,
 };
 use sea_orm::DatabaseConnection;
 use seaography::{
-    async_graphql::{self, ServerError},
-    lazy_static, Builder, BuilderContext,
+    async_graphql, lazy_static, Builder, BuilderContext, LifecycleHooks, MultiLifecycleHooks,
 };
 use std::{env, sync::Arc};
 
 lazy_static::lazy_static! {
-    static ref CONTEXT: BuilderContext = BuilderContext::default();
+    static ref CONTEXT: BuilderContext = {
+        BuilderContext {
+            hooks: LifecycleHooks::new( //
+                MultiLifecycleHooks::default()
+            ),
+            ..Default::default()
+        }
+    };
+    // Start: Scaffold //
     static ref DEMO_SITE: bool = env::var_os("DEMO_SITE").unwrap_or_default() == "true";
+    // End: Scaffold //
 }
 
 pub fn schema(
@@ -32,10 +40,13 @@ pub fn schema(
         .schema_builder()
         // GraphQL schema with database connection
         .data(database)
+        // Start: Scaffold //
         .extension(Readonly)
+        // End: Scaffold //
         .finish()
 }
 
+// Start: Scaffold //
 pub struct Readonly;
 
 impl ExtensionFactory for Readonly {
@@ -68,3 +79,4 @@ impl Extension for ReadonlyExtension {
         Ok(document)
     }
 }
+// End: Scaffold //

@@ -46,6 +46,7 @@ impl Task for SeedData {
             db::migrate::<Migrator>(db).await?;
         }
 
+        // Start: Scaffold //
         // Some boilerplate
         const CRLF: csv::Terminator = csv::Terminator::CRLF;
         const DOLLAR_SIGN: csv::Terminator = csv::Terminator::Any(b'$');
@@ -83,11 +84,13 @@ impl Task for SeedData {
         );
 
         println!("All Tables Completed Seeding!");
+        // End: Scaffold //
 
         Ok(())
     }
 }
 
+// Start: Scaffold //
 async fn seed_table<T, A>(
     csv: &str,
     encoding: &'static encoding_rs::Encoding,
@@ -132,3 +135,4 @@ where
     println!("Seeding Completed: {csv:?}");
     Ok(())
 }
+// End: Scaffold //

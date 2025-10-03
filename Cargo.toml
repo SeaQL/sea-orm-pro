@@ -1,5 +1,5 @@
 [workspace]
-members = [".", "sea-orm-pro"]
+members = [".", "migration", "sea-orm-pro"]
 
 [package]
 name = "sea-orm-pro-backend"
@@ -10,9 +10,9 @@ publish = false
 [dependencies]
 migration = { path = "migration" }
 sea-orm-pro = { path = "sea-orm-pro", version = "0.1.0" }
-sea-orm = { version = "1.1.5", features = ["runtime-tokio-rustls", "macros", "debug-print"] }
-seaography = { version = "1.1.4", features = ["with-decimal", "with-chrono", "with-uuid", "field-snake-case"] }
-loco-rs = { version = "0.14" }
+sea-orm = { version = "~2.0.0-rc", features = ["runtime-tokio-rustls", "macros", "debug-print"] }
+seaography = { version = "~2.0.0-rc", features = ["with-decimal", "with-chrono", "with-uuid", "field-snake-case"] }
+loco-rs = { version = "0.16" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 eyre = "0.6"
@@ -32,12 +32,12 @@ encoding_rs = "0.8"
 encoding_rs_io = "0.1"
 
 [dev-dependencies]
-loco-rs = { version = "0.14", features = ["testing"] }
+loco-rs = { version = "0.16", features = ["testing"] }
 serial_test = { version = "3.1" }
 
 [features]
 default = ["sqlx-sqlite"]
-sqlx-mysql = ["sea-orm/sqlx-mysql"]
+sqlx-mysql = ["sea-orm/sqlx-mysql", "migration/sqlx-mysql"]
 sqlx-postgres = ["sea-orm/sqlx-postgres"]
 sqlx-sqlite = ["sea-orm/sqlx-sqlite"]
 
@@ -45,3 +45,9 @@ sqlx-sqlite = ["sea-orm/sqlx-sqlite"]
 name = "sea-orm-pro-backend-cli"
 path = "src/bin/main.rs"
 required-features = []
+
+[patch.crates-io]
+sea-orm = { git = "https://github.com/SeaQL/sea-orm", branch = "master" }
+sea-orm-migration = { git = "https://github.com/SeaQL/sea-orm", branch = "master" }
+seaography = { git = "https://github.com/SeaQL/seaography", branch = "main" }
+loco-rs = { git = "https://github.com/SeaQL/loco", branch = "master" }

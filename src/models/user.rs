@@ -7,13 +7,15 @@ pub struct Model {
     pub created_at: DateTime,
     pub updated_at: DateTime,
     #[sea_orm(primary_key)]
-    pub id: i32,
+    pub id: i64,
     #[sea_orm(unique)]
     pub pid: Uuid,
     #[sea_orm(unique)]
     pub email: String,
+    #[seaography(ignore)]
     pub password: String,
     #[sea_orm(unique)]
+    #[seaography(ignore)]
     pub api_key: String,
     pub name: String,
 }

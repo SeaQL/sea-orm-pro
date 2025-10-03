@@ -2,7 +2,7 @@ use std::path::Path;
 
 use async_trait::async_trait;
 use loco_rs::{
-    app::{AppContext, Hooks},
+    app::{AppContext, Hooks, Initializer},
     bgworker::Queue,
     boot::{create_app, BootResult, StartMode},
     config::Config,
@@ -13,7 +13,7 @@ use loco_rs::{
 };
 use migration::Migrator;
 
-use crate::{controllers, tasks};
+use crate::{controllers, initializers, tasks};
 
 pub struct App;
 #[async_trait]
@@ -38,6 +38,13 @@ impl Hooks for App {
         config: Config,
     ) -> Result<BootResult> {
         create_app::<Self, Migrator>(mode, environment, config).await
+    }
+
+    async fn initializers(_ctx: &AppContext) -> Result<Vec<Box<dyn Initializer>>> {
+        let initializers: Vec<Box<dyn Initializer>> =
+            vec![Box::new(initializers::graphql::GraphQLInitializer)];
+
+        Ok(initializers)
     }
 
     fn routes(_ctx: &AppContext) -> AppRoutes {

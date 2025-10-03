@@ -12,7 +12,7 @@ path = "src/lib.rs"
 async-std = { version = "1", features = ["attributes", "tokio1"] }
 
 [dependencies.sea-orm-migration]
-version = "~1.1.5" # sea-orm-migration version
+version = "~2.0.0-rc" # sea-orm-migration version
 features = [
   # Enable following runtime and db backend features if you want to run migration via CLI
   # "runtime-tokio-native-tls",

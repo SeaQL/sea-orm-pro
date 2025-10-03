@@ -1,0 +1,7 @@
+[site.theme]
+title = "SeaORM Pro"
+logo = "https://www.sea-ql.org/favicon.ico"
+login_banner = "https://www.sea-ql.org/img/SeaQL%20logo.png"
+
+[site.navbar]
+graphql_playground = true

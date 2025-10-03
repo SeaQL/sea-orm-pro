@@ -1,10 +1,10 @@
-use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
-use axum::{body::Body, extract::Request};
+use async_graphql::{
+    dynamic::Schema,
+    http::{playground_source, GraphQLPlaygroundConfig},
+};
+use async_graphql_axum::GraphQLRequest;
 use loco_rs::prelude::*;
 use seaography::async_graphql;
-use tower_service::Service;
-
-use crate::graphql::query_root;
 
 async fn graphql_playground() -> Result<Response> {
     // Setup GraphQL playground web and specify the endpoint for GraphQL resolver
@@ -20,19 +20,30 @@ async fn graphql_playground() -> Result<Response> {
 }
 
 async fn graphql_handler(
-    _auth: auth::JWT,
+    auth: auth::JWT,
     State(ctx): State<AppContext>,
-    req: Request<Body>,
-) -> Result<Response> {
-    // Maximum depth of the constructed query
-    const DEPTH: Option<usize> = None;
-    // Maximum complexity of the constructed query
-    const COMPLEXITY: Option<usize> = None;
-    // GraphQL schema
-    let schema = query_root::schema(ctx.db.clone(), DEPTH, COMPLEXITY).unwrap();
-    // GraphQL handler
-    let mut graphql_handler = async_graphql_axum::GraphQL::new(schema);
-    let res = graphql_handler.call(req).await.unwrap();
+    gql_req: GraphQLRequest,
+) -> Result<async_graphql_axum::GraphQLResponse, (axum::http::StatusCode, &'static str)> {
+    let user = crate::models::user::Entity::find()
+        .filter(crate::models::user::Column::Email.eq(auth.claims.pid))
+        .one(&ctx.db)
+        .await
+        .map_err(|_| {
+            (
+                axum::http::StatusCode::INTERNAL_SERVER_ERROR,
+                "Database error",
+            )
+        })?
+        .ok_or((axum::http::StatusCode::UNAUTHORIZED, "User not found"))?;
+
+    let mut gql_req = gql_req.into_inner();
+    gql_req = gql_req.data(seaography::UserContext { user_id: user.id });
+
+    let schema: Schema = ctx.shared_store.get().ok_or((
+        axum::http::StatusCode::INTERNAL_SERVER_ERROR,
+        "GraphQL not setup",
+    ))?;
+    let res = schema.execute(gql_req).await.into();
 
     Ok(res)
 }

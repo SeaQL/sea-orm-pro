@@ -16,7 +16,7 @@ mod m20241101_000008_product_model_product_description;
 mod m20241101_000009_sales_order_header;
 mod m20241101_000010_sales_order_detail;
 mod m20250101_000001_user;
-mod m20250101_000002_seed_user;
+mod m20250101_000002_seed_users;
 
 pub struct Migrator;
 
@@ -35,7 +35,7 @@ impl MigratorTrait for Migrator {
             Box::new(m20241101_000009_sales_order_header::Migration),
             Box::new(m20241101_000010_sales_order_detail::Migration),
             Box::new(m20250101_000001_user::Migration),
-            Box::new(m20250101_000002_seed_user::Migration),
+            Box::new(m20250101_000002_seed_users::Migration),
         ]
     }
 }

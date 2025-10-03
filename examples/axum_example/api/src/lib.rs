@@ -72,10 +72,10 @@ async fn start() -> anyhow::Result<()> {
         .nest_service(
             "/admin",
             get_service(
-                ServeDir::new(concat!(env!("CARGO_MANIFEST_DIR"), "/assets/admin")).fallback(
+                ServeDir::new(concat!(env!("CARGO_MANIFEST_DIR"), "/../assets/admin")).fallback(
                     ServeFile::new(concat!(
                         env!("CARGO_MANIFEST_DIR"),
-                        "/assets/admin/index.html"
+                        "/../assets/admin/index.html"
                     )),
                 ),
             ),
@@ -229,7 +229,8 @@ async fn delete_post(
     Ok(post_response(&mut cookies, data))
 }
 
-const DEMO_USER: &str = "demo@sea-ql.org";
+const DEMO_USER: &str = "admin@sea-ql.org";
+const DEMO_PWD: &str = "demo@sea-ql.org";
 const DEMO_USER_PID: &str = "79a6243b-088d-5d95-9b16-a2d1689e291f";
 const DEMO_USER_TOKEN: &str = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJwaWQiOiI2MjRhOWMxZi1hMTQ5LTQ0Y2MtYjBhMy03OTMzNDViZTlkOTMiLCJleHAiOjE3MzY4NDc1OTcsImNsYWltcyI6bnVsbH0.w2dJzWUw343eAt_sWrngb065uwJK-SOgJ8gDBls7XHSKILNKGzh-ZG9VFEBwVl4356-vD1MM8Qo8Y2TcO5V-NA";
 
@@ -246,7 +247,7 @@ async fn user_login(
     if params.email != DEMO_USER {
         panic!("unauthorized!");
     }
-    if params.password != DEMO_USER {
+    if params.password != DEMO_PWD {
         panic!("unauthorized!");
     }
 

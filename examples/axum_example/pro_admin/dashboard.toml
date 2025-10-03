@@ -1,0 +1,7 @@
+title = "SeaORM Pro"
+subtitle = "Build professional admin panels with SeaORM Pro."
+
+[[info.card]]
+title = "What is SeaORM Pro?"
+description = "SeaORM Pro is an admin panel solution allowing you to quickly and easily launch an admin panel for your application."
+link = "https://www.sea-ql.org/sea-orm-pro/docs/introduction/sea-orm-pro/"

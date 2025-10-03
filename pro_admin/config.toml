@@ -6,6 +6,10 @@ logo = "/admin/favicon.ico"
 # File path of admin panel login banner
 login_banner = "/admin/logo.png"
 
+[site.navbar]
+# Whether to show the GraphQL playground button
+graphql_playground = true
+
 [site.menu]
 # Title of "Dashboard" in the menu
 dashboard = { title = "Dashboard" }
@@ -13,3 +17,4 @@ dashboard = { title = "Dashboard" }
 raw_table = { title = "Raw Tables" }
 # Title of "Composite Tables" in the menu
 composite_table = { title = "Composite Tables" }
+
